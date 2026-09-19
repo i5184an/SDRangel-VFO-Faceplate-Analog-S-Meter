@@ -1,5 +1,3 @@
-# SDRangel-VFO-Faceplate-Analog-S-Meter
-A custom Python / PyQt5 desktop companion utility for **SDRangel**, built to give modern software-defined radio setups the classic look and feel of a vintage analog transceiver. It features an interactive rotary VFO tuning knob, a retro analog S-meter, step selection, and a full numeric keypad with positive/negative (`±`) offset support.
 # SDRangel VFO Faceplate & Analog S-Meter
 
 A custom Python / PyQt5 desktop companion utility for **SDRangel**, built to give modern software-defined radio setups the classic look and feel of a vintage analog transceiver. It features an interactive rotary VFO tuning knob, a retro analog S-meter, step selection, and a full numeric keypad with positive/negative (`±`) offset support.
@@ -34,67 +32,48 @@ When you configure or auto-detect a channel, the application dynamically constru
 ```json
 {
   "channelType": "AMDemod",
-
-If you switch to an SSB demodulator (SSBDemod), the app automatically adapts the payload key to "SSBDemodSettings", ensuring seamless compatibility across different modes without restarting the utility.
-
-3. Auto-Detection Mechanism (🔍 Auto-Detect Channel)
-To eliminate manual guesswork when setting up the app, the Setup tab includes an automated discovery routine:
-
-The app sends an HTTP GET request to the device set endpoint: http://<host>/sdrangel/deviceset/<devset_id>.
-
-It inspects the returned JSON response for the channels array.
-
-It automatically reads the channelType of the first active channel (e.g., AMDemod) and populates the channel index and type fields, establishing an instant communication link.
-
-4. Bidirectional Real-Time Synchronization
-Outgoing Control (PATCH): Rotating the vintage dial, clicking step buttons, or entering an offset via the keypad (SET DEV with ± support) immediately fires an asynchronous PATCH request to update the frequency offset in SDRangel.
-
-Incoming Polling (GET): A background thread utilizing QTimer polls SDRangel's channel settings endpoint every second (/sdrangel/deviceset/{devset}/channel/{chan_idx}/settings). If you tune or modify settings directly inside the main SDRangel interface, the companion faceplate automatically detects the change and updates its display and S-meter in real time.
-
-🚀 Installation & Requirements
-Prerequisites: Make sure Python is installed on your PC (Python 3.x recommended).
-
-Install the required dependencies via terminal:
-
-Bash
-
-
-pip install PyQt5 requests
-Start SDRangel with the Web REST server enabled (typically running on port 8091).
-
-Run the script:
-
-Bash
-
-
-python sdrangel_vfo_app.py
-Configure via Setup Tab:
-
-Enter your SDRangel instance details (http://127.0.0.1:8091).
-
-Specify your Device Set ID and Channel Index.
-
-Click 🔍 Auto-Detect Channel to automatically fetch the active demodulator parameters.
-
-Switch back to the Main tab and enjoy precision tuning with a classic hardware feel!
-
-🤖 Acknowledgments
-This project was entirely designed, developed, and refined with the assistance of Gemini.
-
-📜 License
-Distributed under the MIT License. Feel free to fork, modify, and improve for your own shack setup!
   "direction": 0,
   "AMDemodSettings": {
     "inputFrequencyOffset": -500
   }
 }
+```
+If you switch to an SSB demodulator (`SSBDemod`), the app automatically adapts the payload key to `"SSBDemodSettings"`, ensuring seamless compatibility across different modes without restarting the utility.
 
+### 3. Auto-Detection Mechanism (`🔍 Auto-Detect Channel`)
+To eliminate manual guesswork when setting up the app, the **Setup** tab includes an automated discovery routine:
+1. The app sends an HTTP `GET` request to the device set endpoint: `http://<host>/sdrangel/deviceset/<devset_id>`.
+2. It inspects the returned JSON response for the `channels` array.
+3. It automatically reads the `channelType` of the first active channel (e.g., `AMDemod`) and populates the channel index and type fields, establishing an instant communication link.
 
+### 4. Bidirectional Real-Time Synchronization
+* **Outgoing Control (`PATCH`)**: Rotating the vintage dial, clicking step buttons, or entering an offset via the keypad (`SET DEV` with `±` support) immediately fires an asynchronous `PATCH` request to update the frequency offset in SDRangel.
+* **Incoming Polling (`GET`)**: A background thread utilizing `QTimer` polls SDRangel's channel settings endpoint every second (`/sdrangel/deviceset/{devset}/channel/{chan_idx}/settings`). If you tune or modify settings directly inside the main SDRangel interface, the companion faceplate automatically detects the change and updates its display and S-meter in real time.
 
+---
 
-<img width="1914" height="1077" alt="SDRAngel S-meter e vintage knob" src="https://github.com/user-attachments/assets/536cdc87-8901-423b-90a1-507f7c6758bc" />
+## 🚀 Installation & Requirements
 
+1. **Prerequisites**: Make sure **Python** is installed on your PC (Python 3.x recommended).
+2. Install the required dependencies via terminal:
+   ```bash
+   pip install PyQt5 requests
+   ```
+3. **Start SDRangel** with the Web REST server enabled (typically running on port `8091`).
+4. **Run the script**:
+   ```bash
+   python sdrangel_vfo_app.py
+   ```
+5. **Configure via Setup Tab**:
+   * Enter your SDRangel instance details (`http://127.0.0.1:8091`).
+   * Specify your **Device Set ID** and **Channel Index**.
+   * Click **🔍 Auto-Detect Channel** to automatically fetch the active demodulator parameters.
+6. Switch back to the **Main** tab and enjoy precision tuning with a classic hardware feel!
 
+---
 
+## 🤖 Acknowledgments
+* This project was entirely designed, developed, and refined with the assistance of **Gemini**.
 
-
+## 📜 License
+Distributed under the MIT License. Feel free to fork, modify, and improve for your own shack setup!<img width="1914" height="1077" alt="SDRAngel S-meter e vintage knob" src="https://github.com/user-attachments/assets/1a5c53e1-9a77-4984-9148-20d06441dc17" />
